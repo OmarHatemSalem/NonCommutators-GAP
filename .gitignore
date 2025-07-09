@@ -1,2 +1,10 @@
 *.mp4
 media
+*.xlsx
+*.txt
+*.csv
+.ipynb_checkpoints/
+
+*.ipynb
+!Commutator.ipynb
+*.py
