@@ -67,7 +67,7 @@
 We're going to try to solve three group theory problems using GAP:
 \begin{enumerate}
     \item<1-> Given a group, explore what we can about it.
-    \item<2-> Determine if the automorphism group of a non-abelian group is also non-abelian.
+    \item<2-> Prove/Disprove a claim about automorphism groups.
     \item<3-> Conjecture trends about the commutativity ratio.
 \end{enumerate}
 \end{frame}
@@ -101,12 +101,13 @@ We're going to try to solve three group theory problems using GAP:
         \item<4-> Comparison uses \verb|=| for equality
         \item<5-> Comparison uses \verb|<>| for inequality
     \end{itemize}
-    \pause[4]
+    \pause[5]
     \begin{verbatim}
     # This is a comment
     x := 5;        # Assignment
     y := x + 3;;   # No output
     x = 5;         # Returns true
+    x <> 5;        # Returns false
     \end{verbatim}
 \end{frame}
 
@@ -130,10 +131,10 @@ We're going to try to solve three group theory problems using GAP:
 \begin{frame}[fragile]{Control Flow Keywords}
     GAP supports standard programming constructs:
     \begin{itemize}
-        \item<1-> \verb|if ... then ... elif ... else ... fi|
-        \item<2-> \verb|for ... in ... do ... od|
-        \item<3-> \verb|while ... do ... od|
-        \item<4-> \verb|function ... end|
+        \item<1-> \verb|if ... then ... elif ... else ... fi;|
+        \item<2-> \verb|for ... in ... do ... od;|
+        \item<3-> \verb|while ... do ... od;|
+        \item<4-> \verb|function (...) ... end;|
     \end{itemize}
     \pause[4]
     \begin{verbatim}
@@ -190,7 +191,8 @@ We're going to try to solve three group theory problems using GAP:
 \end{frame}
 \begin{frame}[fragile]{Presentation of group}
     Otherwise, a group can be expressed through its \textit{generators}. \\ \pause
-    \verb|G := Group((1,2,3)(4,3,5));| \\ \pause
+    \verb|G := Group((1,2,3));| \\ \pause
+    \verb|G := Group((1,2,3), (4,3,5));| \\ \pause
     Furthermore, any arbitrary group's elements will be represented by permutations (why?).
 \end{frame}
 \begin{frame}[fragile]{Analyzing a group}
@@ -247,6 +249,20 @@ We're going to try to solve three group theory problems using GAP:
     Automorphisms for groups follow the same rules as homomorphisms. \\\pause
     We also have \verb|AutomorphismGroup(G)| to get the automorphism group.
 \end{frame}
+\begin{frame}[fragile]{Searching All Groups}
+    GAP maintains a library of all groups up to certain orders. You can search through them using:
+    \begin{itemize}
+        \item \verb|AllSmallGroups(n)| - Returns all groups of order $n$
+        \item \verb|NumberSmallGroups(n)| - Returns the number of groups of order $n$
+        \item \verb|SmallGroup(n, i)| - Returns the $i$-th group of order $n$
+    \end{itemize}
+    \pause
+    You can also filter by properties:
+    \begin{itemize}
+        \item \verb|AllSmallGroups(Size, n, IsAbelian, true)|
+        \item \verb|AllSmallGroups(Size, n, IsCyclic, false)|
+    \end{itemize}
+\end{frame}
 \begin{frame}[fragile]{Your turn}
     Check our claim again.
     \begin{quote}
@@ -269,78 +285,35 @@ We call $\operatorname{Pr}(G)$ the \textit{commutativity ratio} of $G$.
         \item Can you conjecture a formula for $\operatorname{Pr}(G)$ in terms of the number of conjugacy classes?
     \end{itemize}
     \pause
-    Hint: The number of conjugacy classes can be found using \verb|NrConjugacyClasses(G)|.
-\end{frame}
-\begin{frame}[fragile]{Searching All Groups}
-    GAP maintains a library of all groups up to certain orders. You can search through them using:
-    \begin{itemize}
-        \item \verb|AllSmallGroups(n)| - Returns all groups of order $n$
-        \item \verb|NumberSmallGroups(n)| - Returns the number of groups of order $n$
-        \item \verb|SmallGroup(n, i)| - Returns the $i$-th group of order $n$
-    \end{itemize}
-    \pause
-    You can also filter by properties:
-    \begin{itemize}
-        \item \verb|AllSmallGroups(Size, n, IsAbelian, true)|
-        \item \verb|AllSmallGroups(Size, n, IsCyclic, false)|
-    \end{itemize}
-\end{frame}
-\begin{frame}[fragile]{Your turn}
-    Using the small groups library, find:
-    \begin{itemize}
-        \item How many non-abelian groups of order 12 exist?
-        \item Which group of order 8 is the quaternion group?
-        \item Find a non-cyclic group of order 15 (if it exists)
-    \end{itemize}
+    Hint: The number of conjugacy classes can be found using \verb|NrConjugacyClasses(G)|. Try to use \verb|SmallGroups| to help you.
 \end{frame}
 \section{Advanced Topics}
-\begin{frame}[fragile]{Characters}
-    GAP provides powerful tools for character theory:
+\begin{frame}[fragile]{Beyond the Basics}
+    GAP offers many advanced features:
+    \bigbreak
+    \textbf{Character Theory:}
     \begin{itemize}
-        \item \verb|CharacterTable(G)| - Returns the character table of a group
-        \item \verb|Irr(G)| - Returns the irreducible characters
-        \item \verb|LinearCharacters(G)| - Returns the linear characters
+        \item \verb|CharacterTable(G)|, \verb|Irr(G)|, \verb|LinearCharacters(G)|
     \end{itemize}
     \pause
-    Character tables are useful for:
+    \textbf{Algebraic Categories:}
     \begin{itemize}
-        \item Studying group representations
-        \item Determining if groups are isomorphic
-        \item Understanding conjugacy classes
-    \end{itemize}
-\end{frame}
-\begin{frame}[fragile]{Categories}
-    GAP uses categories to organize algebraic structures:
-    \begin{itemize}
-        \item \verb|CategoryCollections(IsObject)| - Collections of objects
-        \item \verb|IsMagma| - Sets with binary operations
-        \item \verb|IsSemigroup|, \verb|IsMonoid|, \verb|IsGroup| - Group-like structures
-        \item \verb|IsRing|, \verb|IsField| - Ring and field structures
+        \item \verb|IsMagma|, \verb|IsSemigroup|, \verb|IsMonoid|, \verb|IsRing|, \verb|IsField|
     \end{itemize}
     \pause
-    You can check what category an object belongs to using the \verb|Is| functions.
-\end{frame}
-\begin{frame}[fragile]{Free Presentations}
-    GAP allows you to work with groups via presentations:
+    \textbf{Free Presentations:}
     \begin{itemize}
-        \item \verb|FreeGroup("a", "b")| - Creates a free group on generators
-        \item \verb|/ [relator1, relator2, ...]| - Quotient by relations
+        \item Define groups by generators and relations using \verb|FreeGroup|
+        \item Example: $D_8 = \langle r, s \mid r^4 = s^2 = 1, srs = r^{-1} \rangle$
     \end{itemize}
-    \pause
-    Example: Define $D_8 = \langle r, s \mid r^4 = s^2 = 1, srs = r^{-1} \rangle$
-    \begin{verbatim}
-    F := FreeGroup("r", "s");
-    r := F.1; s := F.2;
-    D8 := F / [r^4, s^2, s*r*s*r];
-    \end{verbatim}
 \end{frame}
 \begin{frame}{GAP in Research}
     GAP has been instrumental in many groundbreaking mathematical discoveries:
     \begin{itemize}
-        \item<1-> \textbf{Ore Conjecture (2010)}: Proved that every element of every finite non-abelian simple group is a commutator. GAP was used extensively for computational verification across thousands of groups.
-        \item<2-> Classification of groups of small order
-        \item<3-> Character theory computations for sporadic simple groups
-        \item<4-> Verification of algebraic structures in representation theory
+        \item<1-> Classification of groups of small order
+        \item<2-> Character theory computations for sporadic simple groups
+        \item<3-> Verification of algebraic structures in representation theory
+        \item<4-> \textbf{Ore Conjecture (2010)}: Proved that every element of every finite non-abelian simple group is a commutator. GAP was used extensively for computational verification across thousands of groups.
     \end{itemize}
     \pause[4]
     \bigbreak
@@ -351,7 +324,7 @@ We call $\operatorname{Pr}(G)$ the \textit{commutativity ratio} of $G$.
     \bigbreak
     \begin{itemize}
         \item<1-> Joseph Gallian's \textit{Contemporary Abstract Algebra} includes computer exercises designed for GAP
-        \item<2-> Various teaching material on the GAP website (\href{https://www.gap-system.org/doc/teach/}{gap-system.org/Teaching})
+        \item<2-> Various teaching \href{https://www.gap-system.org/doc/teach}{material} on the GAP website 
         \item<3-> Your CURIOSITY!
     \end{itemize}
 \end{frame}
